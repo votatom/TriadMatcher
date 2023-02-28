@@ -1,0 +1,6 @@
+level2.txt
+rq|bq|bq|rq
+rq|bq|bq|rq
+rq|rq|yq|bq
+rq|yq|bq|yq
+level2_background.png

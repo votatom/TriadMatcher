@@ -1,0 +1,5 @@
+level1.txt
+gq|rq|bq
+bq|gq|gq
+rq|bq|rq
+level1_background.jpg
