@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Triad_Matcher.objects;
 
 namespace Triad_Matcher
@@ -56,7 +57,10 @@ namespace Triad_Matcher
                     this.FirstObject = null;
                     if (this.Level.IsWon())
                     {
-                        this.MainWindow.ShowWinState();
+                        DispatcherTimer timer = new DispatcherTimer();
+                        timer.Interval = new TimeSpan(0,0,0,0,95);
+                        timer.Tick += new EventHandler(this.MainWindow.ShowWinState);
+                        timer.Start();
                     }
                 }
                 else
@@ -93,42 +97,66 @@ namespace Triad_Matcher
                     MoveObjects(this.Level.WhatToMove());
                 }
                 else
-                {
-                    Swap(first, second);
+                { 
+                    DispatcherTimer timer = new DispatcherTimer();
+                    timer.Interval = new TimeSpan(0,0,0,0,50);
+                    timer.Tick += delegate { timer.Stop(); Swap(first, second); };
+                    timer.Start();
                 }
                 
                 
             }
         }
 
-        private void Swap(Coordinates first, Coordinates second)
+        public void Swap(Canvas firstCan, Canvas secondCan, Coordinates first, Coordinates second)
+        {
+            System.Windows.Controls.Grid.SetColumn(firstCan, second.col);
+            System.Windows.Controls.Grid.SetRow(firstCan, second.row);
+            System.Windows.Controls.Grid.SetColumn(secondCan, first.col);
+            System.Windows.Controls.Grid.SetRow(secondCan, first.row);
+            //Brush background = firstCan.Background;
+            //firstCan.Background = secondCan.Background;
+            //secondCan.Background = background;
+        }
+
+        public void Swap(Coordinates first, Coordinates second)
         {
             Canvas firstCan = GetCanvas(first.row, first.col);
             Canvas secondCan = GetCanvas(second.row, second.col);
-            Brush background = firstCan.Background;
-            firstCan.Background = secondCan.Background;
-            secondCan.Background = background;
+            System.Windows.Controls.Grid.SetColumn(firstCan, second.col);
+            System.Windows.Controls.Grid.SetRow(firstCan, second.row);
+            System.Windows.Controls.Grid.SetColumn(secondCan, first.col);
+            System.Windows.Controls.Grid.SetRow(secondCan, first.row);
+            //Brush background = firstCan.Background;
+            //firstCan.Background = secondCan.Background;
+            //secondCan.Background = background;
         }
 
         
 
         private void MoveObjects(Dictionary<Coordinates, Coordinates> fromTo)
         {
-            foreach(Coordinates coord in fromTo.Keys)
-            {
-                Canvas gameObject = GetCanvas(coord.row, coord.col);
-                if(gameObject != null)
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 80);
+            timer.Tick += delegate { timer.Stop();
+                foreach (Coordinates coord in fromTo.Keys)
                 {
-                    Grid.SetRow(gameObject, fromTo[coord].row);
-                    Grid.SetColumn(gameObject, fromTo[coord].col);
+                    Canvas gameObject = GetCanvas(coord.row, coord.col);
+                    if (gameObject != null)
+                    {
+                        Grid.SetRow(gameObject, fromTo[coord].row);
+                        Grid.SetColumn(gameObject, fromTo[coord].col);
+                    }
+
                 }
-                
-            }
+            };
+            timer.Start();
         }
 
         private void DeleteObjectCanvases()
         {
             List<List<GameObject>> gameplan = this.Level.GamePlan;
+            List<Canvas> toDestroy = new List<Canvas>();
             for(int x = 0; x < gameplan.Count; x++)
             {
                 for(int y = 0; y < gameplan[x].Count; y++)
@@ -138,11 +166,22 @@ namespace Triad_Matcher
                         Canvas canvas = this.GetCanvas(x, y);
                         if(canvas != null)
                         {
-                            this.Grid.Children.Remove(canvas);
+                            toDestroy.Add(canvas);
                         }
                     }
                 }
             }
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 75);
+            timer.Tick += delegate
+            {
+                timer.Stop();
+                foreach(Canvas canvas in toDestroy)
+                {
+                    this.Grid.Children.Remove(canvas);
+                }
+            };
+            timer.Start();
         }
     }
 }

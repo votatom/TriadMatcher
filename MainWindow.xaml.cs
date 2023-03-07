@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Triad_Matcher.objects;
 using Triad_Matcher.utility;
 
@@ -308,14 +309,16 @@ namespace Triad_Matcher
             return canvas;
         }
 
-        public void ShowWinState()
+        public void ShowWinState(object sender, EventArgs e)
         {
+            ((DispatcherTimer)sender).Stop();
             Canvas mainCanvas = this.MakeBlackBackground();
             Grid grid = MakeWinGrid();
             grid.Width = mainCanvas.Width;
             grid.Height = mainCanvas.Height;
             mainCanvas.Children.Add(grid);
             LevelGrid.Children.Add(mainCanvas);
+
         }
 
         public void Resume(object sender, RoutedEventArgs a)
