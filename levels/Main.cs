@@ -31,7 +31,7 @@ namespace Triad_Matcher
             objectPlan[6] = mushroom;
             objectPlan[7] = cat;
             objectPlan[8] = cat;
-            Level level = new Level(objectPlan, "level1_background.jpg");
+            Level level = new Level(objectPlan, "level1_background.jpg", "Backpack");
             SerializationUtility.SerializeLevel(level);
             objectPlan = new GameObject[16];
             objectPlan[0] = cat;
@@ -50,7 +50,7 @@ namespace Triad_Matcher
             objectPlan[13] = ghost;
             objectPlan[14] = mushroom;
             objectPlan[15] = ghost;
-            level = new Level(objectPlan, "level2_background.png");
+            level = new Level(objectPlan, "level2_background.png", "Backpack");
             SerializationUtility.SerializeLevel(level);
             return level;
             //SerializationUtility.WriteJson<Level>(level, "level1");

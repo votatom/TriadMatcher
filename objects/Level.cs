@@ -39,7 +39,10 @@ namespace Triad_Matcher.objects
 
         private int ToDestroy { get; init; }
         private int Destroyed { get; set; }
+
+        private string Item { get; init; }
         private TextBlock DestroyedText { get; set; }
+        private Canvas ItemCanvas { get; set; }
 
         /// <summary>
         /// BasePath
@@ -65,11 +68,12 @@ namespace Triad_Matcher.objects
         /// Defines property Background.
         /// Filename of background image in format "[name].[jpg/png]"
         /// </param>
-        public Level(GameObject[] objectsInPlan, string background)
+        public Level(GameObject[] objectsInPlan, string background, string item)
         {
             this.GamePlan = MakeLevelPlan(objectsInPlan);
             this.Background = background;
             this.Id = BaseId;
+            this.Item = item;
             BaseId++;
 
         }
@@ -90,12 +94,13 @@ namespace Triad_Matcher.objects
         /// Specific Id from a file.
         /// Defines property Id
         /// </param>
-        public Level(GameObject[] objectsInPlan, string background, int Id)
+        public Level(GameObject[] objectsInPlan, string background, int Id, string item)
         {
             this.GamePlan = MakeLevelPlan(objectsInPlan);
             this.Background = background;
             this.ToDestroy = objectsInPlan.Length;
             this.Destroyed = 0;
+            this.Item = item;
             this.Id = Id;
         }
 
@@ -234,10 +239,10 @@ namespace Triad_Matcher.objects
             grid.RowDefinitions[0].Height = new System.Windows.GridLength(canvas.Height / 3 * 2);
             grid.Width = canvas.Width;
             grid.Height = canvas.Height;
-            Canvas backpack = CreateBackPack();
-            Grid.SetRow(backpack, 0);
-            Grid.SetColumn(backpack, 0);
-            Grid.SetColumnSpan(backpack, 2);
+            Grid item = CreateItem();
+            Grid.SetRow(item, 0);
+            Grid.SetColumn(item, 0);
+            Grid.SetColumnSpan(item, 2);
             TextBlock current = CreateTextBlock("CurrentAmount", this.Destroyed.ToString());
             Grid.SetRow(current, 1);
             Grid.SetColumn(current, 0);
@@ -247,7 +252,7 @@ namespace Triad_Matcher.objects
             this.DestroyedText = current;
             grid.Children.Add(current);
             grid.Children.Add(totalAmount);
-            grid.Children.Add(backpack);
+            grid.Children.Add(item);
             canvas.Children.Add(grid);
         }
 
@@ -263,16 +268,37 @@ namespace Triad_Matcher.objects
             return textBlock;
         }
 
-        private Canvas CreateBackPack()
+        private Grid CreateItem()
         {
+            Grid grid = new Grid();
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            Canvas BlackCanvas = new Canvas();
+            ImageBrush imageBlack = new ImageBrush();
+            imageBlack.Stretch = Stretch.Uniform;
+            Uri uriBlack = new Uri("../../../images/objects/Black"+this.Item+".png", UriKind.Relative);
+            imageBlack.ImageSource = new BitmapImage(uriBlack);
+            BlackCanvas.Background = imageBlack;
+
+
             Canvas canvas = new Canvas();
-            canvas.Name = "Backpack";
+            canvas.Name = "Item";
             ImageBrush image = new ImageBrush();
             image.Stretch = Stretch.Uniform;
-            Uri uri = new Uri("../../../images/objects/Backpack.png", UriKind.Relative);
+            Uri uri = new Uri("../../../images/objects/"+this.Item+".png", UriKind.Relative);
             image.ImageSource = new BitmapImage(uri);
+            image.Opacity = 0;
             canvas.Background = image;
-            return canvas;
+            this.ItemCanvas = canvas;
+            canvas.Height = BlackCanvas.Height;
+            canvas.Width = BlackCanvas.Width;
+            Grid.SetRow(BlackCanvas, 0);
+            Grid.SetColumn(BlackCanvas, 0);
+            Grid.SetRow(canvas,0);
+            Grid.SetColumn(canvas,0);
+            grid.Children.Add(BlackCanvas);
+            grid.Children.Add(canvas);
+            return grid;
         }
 
         public bool SwapEm(Coordinates firstCoord, Coordinates secondCoord)
@@ -336,6 +362,7 @@ namespace Triad_Matcher.objects
                 text += "\n";
             }
             text += this.Background + "\n";
+            text += this.Item + "\n";
             return text;
         }
 
@@ -404,6 +431,14 @@ namespace Triad_Matcher.objects
                 return true;
             }
             return false;
+        }
+
+        public void FillItem()
+        {
+            float max = (float)this.ToDestroy;
+            float current = (float)this.Destroyed;
+            float opacityValue = current/max;
+            this.ItemCanvas.Background.Opacity = opacityValue;
         }
     }
 }

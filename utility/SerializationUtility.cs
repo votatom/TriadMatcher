@@ -75,8 +75,10 @@ namespace Triad_Matcher.utility
                     gameplan.Add(lineObj);
                 } while (line.Split("|").Length > 1);
                 String background = line;
+                line = reader.ReadLine();
+                String item = line;
                 GameObject[] gameObjects = GetArray(gameplan);
-                return new Level(gameObjects, background, levelId);
+                return new Level(gameObjects, background, levelId, item);
             }
             else
             {

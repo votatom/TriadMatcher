@@ -63,7 +63,7 @@ namespace Triad_Matcher
                         if (this.Level.IsWon())
                         {
                             DispatcherTimer timer = new DispatcherTimer();
-                            timer.Interval = new TimeSpan(0, 0, 0, 0, 95);
+                            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
                             timer.Tick += new EventHandler(this.MainWindow.ShowWinState);
                             timer.Start();
                         }
@@ -149,6 +149,7 @@ namespace Triad_Matcher
                     }
 
                 }
+                this.Playable = true;
             };
             timer.Start();
         }
@@ -180,6 +181,7 @@ namespace Triad_Matcher
                 {
                     this.Grid.Children.Remove(canvas);
                 }
+                this.Level.FillItem();
             };
             timer.Start();
         }
