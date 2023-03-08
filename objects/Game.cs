@@ -19,6 +19,7 @@ namespace Triad_Matcher
         public Coordinates FirstObject { get; set; }
         public Level Level { get; private set; }
         public MainWindow MainWindow { get; init; }
+        private bool Playable { get; set; }
 
         public Game(ref Grid grid, MainWindow mainWindow)
         {
@@ -26,6 +27,7 @@ namespace Triad_Matcher
             this.FirstObject = null;
             this.Grid = grid;
             this.MainWindow = mainWindow;
+            this.Playable = true;
         }
 
         public void AddLevel(Level level) 
@@ -35,40 +37,45 @@ namespace Triad_Matcher
 
         public void Choose(object sender,EventArgs arg)
         {
-            if (!this.FirstChosen)
+            if (this.Playable)
             {
-                if(sender.GetType() == typeof(Canvas))
+                if (!this.FirstChosen)
                 {
-                    this.FirstChosen = true;
-                    this.FirstObject = new Coordinates { row = Grid.GetRow((Canvas)sender), col = Grid.GetColumn((Canvas)sender) };
-                }
-                else
-                {
-                    throw new Exception("Oh yeah im not canvas");
-                }
-            }
-            else
-            {
-                if (sender.GetType() == typeof(Canvas))
-                {
-                    Coordinates second = new Coordinates { row = Grid.GetRow((Canvas)sender), col = Grid.GetColumn((Canvas)sender) };
-                    SwapEm(this.FirstObject, second);
-                    this.FirstChosen = false;
-                    this.FirstObject = null;
-                    if (this.Level.IsWon())
+                    if (sender.GetType() == typeof(Canvas))
                     {
-                        DispatcherTimer timer = new DispatcherTimer();
-                        timer.Interval = new TimeSpan(0,0,0,0,95);
-                        timer.Tick += new EventHandler(this.MainWindow.ShowWinState);
-                        timer.Start();
+                        this.FirstChosen = true;
+                        this.FirstObject = new Coordinates { row = Grid.GetRow((Canvas)sender), col = Grid.GetColumn((Canvas)sender) };
+                    }
+                    else
+                    {
+                        throw new Exception("Oh yeah im not canvas");
                     }
                 }
                 else
                 {
-                    throw new Exception("Oh yeah im not canvas");
+                    if (sender.GetType() == typeof(Canvas))
+                    {
+                        Coordinates second = new Coordinates { row = Grid.GetRow((Canvas)sender), col = Grid.GetColumn((Canvas)sender) };
+                        this.Playable = false;
+                        SwapEm(this.FirstObject, second);
+                        this.FirstChosen = false;
+                        this.FirstObject = null;
+                        if (this.Level.IsWon())
+                        {
+                            DispatcherTimer timer = new DispatcherTimer();
+                            timer.Interval = new TimeSpan(0, 0, 0, 0, 95);
+                            timer.Tick += new EventHandler(this.MainWindow.ShowWinState);
+                            timer.Start();
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Oh yeah im not canvas");
+                    }
+
                 }
-                
             }
+            
         }
 
         private Canvas GetCanvas(int row, int col)
@@ -99,24 +106,17 @@ namespace Triad_Matcher
                 else
                 { 
                     DispatcherTimer timer = new DispatcherTimer();
-                    timer.Interval = new TimeSpan(0,0,0,0,50);
-                    timer.Tick += delegate { timer.Stop(); Swap(first, second); };
+                    timer.Interval = new TimeSpan(0,0,0,1);
+                    timer.Tick += delegate { 
+                        timer.Stop(); 
+                        Swap(first, second); 
+                        this.Playable = true;
+                    };
                     timer.Start();
                 }
                 
                 
             }
-        }
-
-        public void Swap(Canvas firstCan, Canvas secondCan, Coordinates first, Coordinates second)
-        {
-            System.Windows.Controls.Grid.SetColumn(firstCan, second.col);
-            System.Windows.Controls.Grid.SetRow(firstCan, second.row);
-            System.Windows.Controls.Grid.SetColumn(secondCan, first.col);
-            System.Windows.Controls.Grid.SetRow(secondCan, first.row);
-            //Brush background = firstCan.Background;
-            //firstCan.Background = secondCan.Background;
-            //secondCan.Background = background;
         }
 
         public void Swap(Coordinates first, Coordinates second)

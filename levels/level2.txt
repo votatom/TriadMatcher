@@ -1,6 +1,6 @@
 level2.txt
-rq|bq|bq|rq
-rq|bq|bq|rq
-rq|rq|yq|bq
-rq|yq|bq|yq
+bq|rq|gq|yq
+rq|bq|rq|gq
+gq|yq|bq|rq
+yq|gq|rq|yq
 level2_background.png

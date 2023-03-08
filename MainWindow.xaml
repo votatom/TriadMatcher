@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="Triad Matcher" Height="800" Width="1280"
         Name="MainStage"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+        
     <!--
     <Grid>
         <Grid.Background>
