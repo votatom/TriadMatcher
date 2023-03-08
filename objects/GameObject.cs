@@ -38,7 +38,10 @@ namespace Triad_Matcher
             {Symbols.gq, "GreenQuartz" },
             {Symbols.pq, "PurpleQuartz" },
             {Symbols.rq, "RoseQuartz" },
-            {Symbols.yq, "YellowQuartz" }
+            {Symbols.yq, "YellowQuartz" },
+            {Symbols.ph, "PinkHat" },
+            {Symbols.gh, "GreenHat" },
+            {Symbols.vh, "VioletHat" }
 
         };
 

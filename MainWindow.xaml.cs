@@ -44,8 +44,8 @@ namespace Triad_Matcher
         {
             PlayBut.Background = getObjectImage("PlayButton.png");
             ((ImageBrush)PlayBut.Background).Stretch = Stretch.Uniform;
-            //PlayBut.MouseEnter += new MouseEventHandler(this.BiggerPlayBut);
-            //PlayBut.MouseLeave += new MouseEventHandler(this.SmallerPlayBut);
+            PlayBut.MouseEnter += new MouseEventHandler(this.BiggerPlayBut);
+            PlayBut.MouseLeave += new MouseEventHandler(this.SmallerPlayBut);
             PlayBut.MouseDown += new MouseButtonEventHandler(this.LevelSelect);
             int max = 150;
             PlayBut.MaxWidth = max;
@@ -57,15 +57,17 @@ namespace Triad_Matcher
         {
             ImageBrush image = (ImageBrush)PlayBut.Background;
             PlayBut.Height = PlayBut.Height + 20;
-            PlayBut.Width = PlayBut.Width + 20;
+            ScaleTransform transform = new ScaleTransform();
+            transform.ScaleX = 1.2;
+            transform.ScaleY = 1.2;
+            PlayBut.RenderTransform = transform;
             PlayBut.Background = image;
             
         }
 
         private void SmallerPlayBut(Object sender, EventArgs e)
         {
-            PlayBut.Height = PlayBut.Height - 20;
-            PlayBut.Width = PlayBut.Width - 20;
+            PlayBut.RenderTransform = null;
         }
 
         /// <summary>

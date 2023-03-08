@@ -1,6 +1,6 @@
 level1.txt
-gq|rq|bq
-bq|gq|gq
-rq|bq|rq
+ph|vh|gh
+gh|ph|ph
+vh|gh|vh
 level1_background.jpg
 Backpack

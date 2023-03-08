@@ -19,7 +19,10 @@ namespace Triad_Matcher
         gq,
         pq,
         rq,
-        yq
+        yq,
+        ph,
+        gh,
+        vh
 
     }
 }

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 using Triad_Matcher.objects;
 
@@ -56,15 +51,17 @@ namespace Triad_Matcher
                     if (sender.GetType() == typeof(Canvas))
                     {
                         Coordinates second = new Coordinates { row = Grid.GetRow((Canvas)sender), col = Grid.GetColumn((Canvas)sender) };
-                        this.Playable = false;
                         SwapEm(this.FirstObject, second);
+                        this.Playable = false;
                         this.FirstChosen = false;
                         this.FirstObject = null;
                         if (this.Level.IsWon())
                         {
                             DispatcherTimer timer = new DispatcherTimer();
                             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-                            timer.Tick += new EventHandler(this.MainWindow.ShowWinState);
+                            timer.Tick += new EventHandler(
+                                this.MainWindow.ShowWinState
+                            );
                             timer.Start();
                         }
                     }
@@ -106,7 +103,7 @@ namespace Triad_Matcher
                 else
                 { 
                     DispatcherTimer timer = new DispatcherTimer();
-                    timer.Interval = new TimeSpan(0,0,0,1);
+                    timer.Interval = new TimeSpan(0,0,0,0,500);
                     timer.Tick += delegate { 
                         timer.Stop(); 
                         Swap(first, second); 
