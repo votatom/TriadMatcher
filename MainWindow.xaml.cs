@@ -263,6 +263,7 @@ namespace Triad_Matcher
             thisgame.AddLevel(level);
             this.game = thisgame;
             level.CreateGridPlan(ref grid, ref thisgame);
+            //grid.ShowGridLines = true;
             MainCanvas.Background = level.CreateBackground();
             gameplanCanvas.Children.Add(grid);
             gameplanCanvas.Width += 0;
@@ -326,11 +327,13 @@ namespace Triad_Matcher
         public void Resume(object sender, RoutedEventArgs a)
         {
             DestroyBlackBackground();
+            this.game.Resume();
         }
 
         public void Pause(object sender, RoutedEventArgs a)
         {
             ShowPauseState();
+            this.game.Pause();
         }
 
         public void ShowPauseState()

@@ -22,7 +22,7 @@ namespace Triad_Matcher
             this.FirstObject = null;
             this.Grid = grid;
             this.MainWindow = mainWindow;
-            this.Playable = true;
+            this.Resume();
         }
 
         public void AddLevel(Level level) 
@@ -51,8 +51,14 @@ namespace Triad_Matcher
                     if (sender.GetType() == typeof(Canvas))
                     {
                         Coordinates second = new Coordinates { row = Grid.GetRow((Canvas)sender), col = Grid.GetColumn((Canvas)sender) };
+                        if (second.IsSame(this.FirstObject))
+                        {
+                            this.FirstChosen = false;
+                            this.FirstObject = null;
+                            return;
+                        }
+                        this.Pause();
                         SwapEm(this.FirstObject, second);
-                        this.Playable = false;
                         this.FirstChosen = false;
                         this.FirstObject = null;
                         if (this.Level.IsWon())
@@ -106,13 +112,17 @@ namespace Triad_Matcher
                     timer.Interval = new TimeSpan(0,0,0,0,500);
                     timer.Tick += delegate { 
                         timer.Stop(); 
-                        Swap(first, second); 
-                        this.Playable = true;
+                        Swap(first, second);
+                        this.Resume();
                     };
                     timer.Start();
                 }
                 
                 
+            }
+            else
+            {
+                this.Resume();
             }
         }
 
@@ -146,11 +156,10 @@ namespace Triad_Matcher
                     }
 
                 }
-                this.Playable = true;
+                this.Resume();
             };
             timer.Start();
         }
-
         private void DeleteObjectCanvases()
         {
             List<List<GameObject>> gameplan = this.Level.GamePlan;
@@ -181,6 +190,16 @@ namespace Triad_Matcher
                 this.Level.FillItem();
             };
             timer.Start();
+        }
+
+        public void Pause()
+        {
+            this.Playable = false;
+        }
+
+        public void Resume()
+        {
+            this.Playable = true;
         }
     }
 }

@@ -4,4 +4,4 @@ rq|bq|rq|gq
 gq|yq|bq|rq
 yq|gq|rq|yq
 level2_background.png
-Backpack
+Hat

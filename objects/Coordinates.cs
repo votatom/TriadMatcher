@@ -43,5 +43,16 @@ namespace Triad_Matcher
             }
             return false;
         }
+
+        public bool IsSame(Coordinates second)
+        {
+            if (this.col == second.col && this.row == second.row)
+            {
+                return true;
+            }
+            return false;
     }
+    }
+
+    
 }
