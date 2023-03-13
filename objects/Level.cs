@@ -1,12 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -41,8 +34,8 @@ namespace Triad_Matcher.objects
         private int Destroyed { get; set; }
 
         private string Item { get; init; }
-        private TextBlock DestroyedText { get; set; }
-        private Canvas ItemCanvas { get; set; }
+        private Canvas? ItemCanvas { get; set; }
+        private MainWindow? MainWindow { get; set; }
 
         /// <summary>
         /// BasePath
@@ -158,6 +151,11 @@ namespace Triad_Matcher.objects
             return plan;
         }
 
+        public void AddMainWindow(MainWindow window)
+        {
+            this.MainWindow = window;
+        }
+
         /// <summary>
         /// Used to get a background image URI (relative) from properties BasePath and Background
         /// </summary>
@@ -230,58 +228,83 @@ namespace Triad_Matcher.objects
             canvas.Name = "Requirements";
             Grid grid = new Grid();
             grid.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-            grid.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            grid.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+            grid.MaxHeight = canvas.Height-50;
             for (int i = 0; i < 2; i++)
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
                 grid.RowDefinitions.Add(new RowDefinition());
             }
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.RowDefinitions[0].Height = new System.Windows.GridLength(canvas.Height / 3 * 2);
             grid.Width = canvas.Width;
             grid.Height = canvas.Height;
-            Grid item = CreateItem();
-            Grid.SetRow(item, 0);
-            Grid.SetColumn(item, 0);
-            Grid.SetColumnSpan(item, 2);
-            TextBlock current = CreateTextBlock("CurrentAmount", this.Destroyed.ToString());
-            Grid.SetRow(current, 1);
-            Grid.SetColumn(current, 0);
-            TextBlock totalAmount = CreateTextBlock("TotalAmount", this.ToDestroy.ToString());
-            Grid.SetRow(totalAmount, 1);
-            Grid.SetColumn(totalAmount, 1);
-            this.DestroyedText = current;
-            grid.Children.Add(current);
-            grid.Children.Add(totalAmount);
-            grid.Children.Add(item);
+            Grid item = CreateItem(canvas.Width);
+            Border border = new Border();
+            border.Child = item;
+            border.Margin = new System.Windows.Thickness(0,(canvas.Height/4),0,0);
+            Grid.SetRow(border, 0);
+            Grid.SetColumn(border, 0);
+            Grid.SetColumnSpan(border, 3);
+            Canvas restart = this.MainWindow.MakeRestartButton();
+            restart.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            
+            Border restartBorder = new Border();
+            restartBorder.Child = restart;
+            restartBorder.Margin = new System.Windows.Thickness((canvas.Width / 10), 0,0, (canvas.Height / 16));
+
+            Grid.SetRow(restartBorder, 1);
+            Grid.SetColumn(restartBorder, 0);
+
+            Canvas levelselect = this.MainWindow.MakeLevelSelectBut();
+            levelselect.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            Border levelselectBorder = new Border();
+            levelselectBorder.Child = levelselect;
+            levelselectBorder.Margin = new System.Windows.Thickness(0, 0, 0, (canvas.Height / 16));
+
+            Grid.SetRow(levelselectBorder, 1);
+            Grid.SetColumn(levelselectBorder, 1);
+
+            Canvas mainMenu = this.MainWindow.MakeMainMenuBut();
+            mainMenu.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            Border mainMenuBorder = new Border();
+            mainMenuBorder.Child = mainMenu;
+            mainMenuBorder.Margin = new System.Windows.Thickness(0, 0, (canvas.Width/10), (canvas.Height / 16));
+
+            Grid.SetRow(mainMenuBorder, 1);
+            Grid.SetColumn(mainMenuBorder, 2);
+            grid.Children.Add(restartBorder);
+            grid.Children.Add(levelselectBorder);
+            grid.Children.Add(mainMenuBorder);
+            grid.Children.Add(border);
             canvas.Children.Add(grid);
         }
 
-        private TextBlock CreateTextBlock(String name, String text)
-        {
-            TextBlock textBlock = new TextBlock();
-            textBlock.Name = name;
-            textBlock.Text = text;
-            textBlock.FontSize = 40;
-            textBlock.FontWeight = FontWeights.Bold;
-            textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-            textBlock.VerticalAlignment = VerticalAlignment.Center;
-            return textBlock;
-        }
-
-        private Grid CreateItem()
+        private Grid CreateItem(double width)
         {
             Grid grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.RowDefinitions.Add(new RowDefinition());
             Canvas BlackCanvas = new Canvas();
+            BlackCanvas.Width = width - (width / 15 * 4);
             ImageBrush imageBlack = new ImageBrush();
             imageBlack.Stretch = Stretch.Uniform;
             Uri uriBlack = new Uri("../../../images/objects/Black"+this.Item+".png", UriKind.Relative);
-            imageBlack.ImageSource = new BitmapImage(uriBlack);
+            BitmapImage blackBitmap = new BitmapImage(uriBlack);
+            if(this.Id == 2)
+            {
+                BlackCanvas.Width = width - (width / 15 * 7);
+            }
+            else
+            {
+                BlackCanvas.Width = width - (width / 15 * 4);
+            }
+            imageBlack.ImageSource = blackBitmap;
             BlackCanvas.Background = imageBlack;
 
 
             Canvas canvas = new Canvas();
+            canvas.Width = width - (width / 15 * 4);
             canvas.Name = "Item";
             ImageBrush image = new ImageBrush();
             image.Stretch = Stretch.Uniform;
@@ -395,7 +418,6 @@ namespace Triad_Matcher.objects
             }
             if (matchesX.Count > 2 || matchesY.Count > 2)
             {
-                this.DestroyedText.Text = this.Destroyed.ToString();
                 return true;
             }
             return false;

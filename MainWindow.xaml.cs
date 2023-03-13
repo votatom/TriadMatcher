@@ -24,7 +24,7 @@ namespace Triad_Matcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Game game { get; set; }
+        public Game? game { get; set; }
 
         /// <summary>
         /// Initializes window, sets main grids height and width, and creates levels (only one use, deletes after)
@@ -33,19 +33,21 @@ namespace Triad_Matcher
         {
             InitializeComponent();
             SetGrids();
-            //Main.MakeLevels();
-            MainCanvas.Background = GetBackground("MainMenuBackground.png");
-            LogoCanvas.Background = getObjectImage("Logo.png");
             SetPlayButton();
-            //StartButton.Content = getObjectImage("PlayButton.png");
+            //Main.MakeLevels();
+            MakeLevelSelectButtons();
+            ImageBrush mainMenuBack = GetBackground("MainMenuBackground-Crop.jpg");
+            mainMenuBack.Stretch = Stretch.UniformToFill;
+            MainCanvas.Background = mainMenuBack;
+            LogoCanvas.Background = GetObjectImage("Logo.png");
         }
 
         public void SetPlayButton()
         {
-            PlayBut.Background = getObjectImage("PlayButton.png");
+            PlayBut.Background = GetObjectImage("ButtonPlay.png");
             ((ImageBrush)PlayBut.Background).Stretch = Stretch.Uniform;
-            PlayBut.MouseEnter += new MouseEventHandler(this.BiggerPlayBut);
-            PlayBut.MouseLeave += new MouseEventHandler(this.SmallerPlayBut);
+            PlayBut.MouseEnter += new MouseEventHandler(GameObject.MouseInCanvas);
+            PlayBut.MouseLeave += new MouseEventHandler(GameObject.MouseOutOfCanvas);
             PlayBut.MouseDown += new MouseButtonEventHandler(this.LevelSelect);
             int max = 150;
             PlayBut.MaxWidth = max;
@@ -53,22 +55,7 @@ namespace Triad_Matcher
             PlayBut.Cursor = Cursors.Hand;
         }
 
-        private void BiggerPlayBut(Object sender, EventArgs e)
-        {
-            ImageBrush image = (ImageBrush)PlayBut.Background;
-            PlayBut.Height = PlayBut.Height + 20;
-            ScaleTransform transform = new ScaleTransform();
-            transform.ScaleX = 1.2;
-            transform.ScaleY = 1.2;
-            PlayBut.RenderTransform = transform;
-            PlayBut.Background = image;
-            
-        }
-
-        private void SmallerPlayBut(Object sender, EventArgs e)
-        {
-            PlayBut.RenderTransform = null;
-        }
+        
 
         /// <summary>
         /// Sets width and height for every main grid in application
@@ -110,7 +97,7 @@ namespace Triad_Matcher
             MainGrid.Visibility = Visibility.Hidden;
             LevelSelectorGrid.Visibility = Visibility.Visible;
             LevelGrid.Visibility = Visibility.Hidden;
-            MainCanvas.Background = GetBackground("test_background.jpg");
+            MainCanvas.Background = GetBackground("SelectLevelBackground.png");
 
         }
 
@@ -141,7 +128,7 @@ namespace Triad_Matcher
         /// <param name="canvas">
         /// Canvas to be edited
         /// </param>
-        public static void getGridBackground(int amount, ref Canvas canvas)
+        public static void GetGridBackground(int amount, ref Canvas canvas)
         {
             string path = "../../../images/grids/{0}";
             string file = amount + "x" + amount + ".png";
@@ -160,7 +147,7 @@ namespace Triad_Matcher
         /// <returns>
         /// ImageBrush
         /// </returns>
-        public static ImageBrush getObjectImage(string filename)
+        public static ImageBrush GetObjectImage(string filename)
         {
             ImageBrush ib = new ImageBrush();
             string path = "../../../images/objects/{0}";
@@ -182,7 +169,13 @@ namespace Triad_Matcher
         /// </param>
         private void ReturnToMainMenu(object sender, RoutedEventArgs e)
         {
-            MainMenuVisible((Grid)((Button)sender).Parent);
+            object parent = ((Canvas)sender).Parent;
+            while (parent.GetType() != typeof(Grid))
+            {
+                parent = ((Border)parent).Parent;
+            }
+            Grid grid = (Grid)parent;
+            MainMenuVisible(grid);
             LevelGrid.Visibility = Visibility.Hidden;
         }
 
@@ -196,12 +189,12 @@ namespace Triad_Matcher
         {
             grid.Visibility = Visibility.Hidden;
             MainGrid.Visibility = Visibility.Visible;
-            MainCanvas.Background = GetBackground("MainMenuBackground.png");
+            MainCanvas.Background = GetBackground("MainMenuBackground-Crop.jpg");
         }
 
 
         /// <summary>
-        /// Starts level 1
+        /// Starts specific level
         /// </summary>
         /// <param name="sender">
         /// What elements send a request
@@ -209,30 +202,22 @@ namespace Triad_Matcher
         /// <param name="e">
         /// RoutedEventArgs
         /// </param>
-        private void StartLevel1(object sender, RoutedEventArgs e)
+        private void StartLevelHandler(object sender, RoutedEventArgs e)
         {
-            ((Grid)((Button)sender).Parent).Visibility = Visibility.Hidden;
-            Level level = SerializationUtility.DeserializeLevel(1);
+            Button button = (Button)sender;
+            ((Grid)(button.Parent)).Visibility = Visibility.Hidden;
+            int levelId = Int32.Parse(button.Name.Substring(5,1));
+            Level level = SerializationUtility.DeserializeLevel(levelId);
             StartLevel(LevelGrid,level);
             LevelGrid.Visibility = Visibility.Visible;
         }
 
-        /// <summary>
-        /// Starts level 2
-        /// </summary>
-        /// <param name="sender">
-        /// What elements send a request
-        /// </param>
-        /// <param name="e">
-        /// RoutedEventArgs
-        /// </param>
-        private void StartLevel2(object sender, RoutedEventArgs e)
+        private void StartNextLevel(object sender, RoutedEventArgs e)
         {
-            ((Grid)((Button)sender).Parent).Visibility = Visibility.Hidden;
-            Level level = SerializationUtility.DeserializeLevel(2);
+            Level level = SerializationUtility.DeserializeLevel(this.game.Level.Id + 1);
             StartLevel(LevelGrid, level);
-            LevelGrid.Visibility = Visibility.Visible;
         }
+
 
         /// <summary>
         /// Base function to starting levels gives main grid where are all the elements of one level shown in GUI
@@ -245,6 +230,7 @@ namespace Triad_Matcher
         /// </param>
         private void StartLevel(Grid levelGrid, Level level)
         {
+            level.AddMainWindow(this);
             levelGrid.Children.Clear();
             Grid grid = new Grid();
             Canvas gameplanCanvas = new Canvas();
@@ -256,7 +242,7 @@ namespace Triad_Matcher
             grid.Height = grid.Width;
             gameplanCanvas.Width = grid.Width;
             gameplanCanvas.Height = grid.Width;
-            getGridBackground(level.GamePlan.Count, ref gameplanCanvas);
+            GetGridBackground(level.GamePlan.Count, ref gameplanCanvas);
             grid.Visibility = Visibility.Visible;
             //grid.ShowGridLines = true;
             Game thisgame = new Game(ref grid, this);
@@ -271,7 +257,9 @@ namespace Triad_Matcher
             levelGrid.Children.Add(gameplanCanvas);
 
             Canvas canvas = new Canvas();
-            canvas.Background = GetBackground("req_background.jpg");
+            ImageBrush reqBack = GetBackground("GUI-inLevel" + level.Id + ".png");
+            reqBack.Stretch = Stretch.Uniform;
+            canvas.Background = reqBack;
             canvas.Width = 300;
             canvas.Height = 600;
             Grid.SetRow(canvas, 0);
@@ -279,37 +267,32 @@ namespace Triad_Matcher
             Grid.SetRowSpan(canvas, 3);
             level.CreateReqCanvas(ref canvas);
             levelGrid.Children.Add(canvas);
-
-            Button pause = new Button();
-            TextBlock pauseText = new TextBlock();
-            pauseText.Text = "Pause";
-            pause.Content = pauseText;
-            pause.Width = 150;
-            pause.Height = 50;
-            pause.VerticalAlignment = VerticalAlignment.Center;
-            pause.HorizontalAlignment = HorizontalAlignment.Center;
-            pause.Click += Pause;
-            Grid.SetColumn(pause, 0);
-            Grid.SetRow(pause, 0);
-            levelGrid.Children.Add(pause);
         }
 
-        /// <summary>
-        /// Creates canvas using provided Uri for image
-        /// </summary>
-        /// <param name="uri">
-        /// Where is image located
-        /// </param>
-        /// <returns>
-        /// Canvas with set background image
-        /// </returns>
-        public static Canvas makeObjectImage(Uri uri)
+        public void MakeLevelSelectButtons()
         {
-            ImageBrush image = new ImageBrush();
-            image.ImageSource = new BitmapImage(uri);
-            Canvas canvas = new Canvas();
-            canvas.Background = image;
-            return canvas;
+            for(int i = 0; i < 4; i++)
+            {
+                Button button = this.MakeLevelBut(i+1);
+                Grid.SetRow(button, 1);
+                Grid.SetColumn(button, i);
+                LevelSelectorGrid.Children.Add(button);
+            }   
+        }
+
+        public Button MakeLevelBut(int Id)
+        {
+            Button button = new Button();
+            button.Name = "level" + Id;
+            button.Click += StartLevelHandler;
+            button.Height = 70;
+            button.Width = 150;
+            TextBlock textBlock = new TextBlock();
+            textBlock.FontSize = 30;
+            textBlock.FontWeight = FontWeights.Bold;
+            textBlock.Text = "Level " + Id;
+            button.Content = textBlock;
+            return button;
         }
 
         public void ShowWinState(object sender, EventArgs e)
@@ -323,29 +306,6 @@ namespace Triad_Matcher
             LevelGrid.Children.Add(mainCanvas);
 
         }
-
-        public void Resume(object sender, RoutedEventArgs a)
-        {
-            DestroyBlackBackground();
-            this.game.Resume();
-        }
-
-        public void Pause(object sender, RoutedEventArgs a)
-        {
-            ShowPauseState();
-            this.game.Pause();
-        }
-
-        public void ShowPauseState()
-        {
-            Canvas mainCanvas = this.MakeBlackBackground();
-            Grid grid = MakePauseGrid();
-            grid.Width = mainCanvas.Width;
-            grid.Height = mainCanvas.Height;
-            mainCanvas.Children.Add(grid);
-            LevelGrid.Children.Add(mainCanvas);
-        }
-
         public Canvas MakeBlackBackground()
         {
             Canvas mainCanvas = new Canvas();
@@ -365,7 +325,7 @@ namespace Triad_Matcher
             canvas.Height = this.Height - this.Height / 5;
             canvas.Background = new SolidColorBrush(Colors.White);
             canvas.Visibility = Visibility.Visible;
-            Grid buttons = MakePauseButtons();
+            Grid buttons = MakeWinButtons();
             buttons.Width = canvas.Width;
             buttons.Height = canvas.Height;
             TextBlock text = new TextBlock();
@@ -387,103 +347,84 @@ namespace Triad_Matcher
             return grid;
         }
 
-        public Grid MakePauseGrid()
-        {
-            Canvas canvas = new Canvas();
-            canvas.Width = this.Width / 3;
-            canvas.Height = this.Height - this.Height / 5;
-            canvas.Background = new SolidColorBrush(Colors.White);
-            canvas.Visibility = Visibility.Visible;
-            Grid buttons = MakePauseButtons();
-            buttons.Width = canvas.Width;
-            buttons.Height = canvas.Height;
-
-
-            Button button = new Button();
-            button.Click += Resume;
-            TextBlock text = new TextBlock();
-            text.Text = "Resume";
-            button.Content = text;
-            button.Width = 150;
-            button.Height = 50;
-            button.HorizontalAlignment = HorizontalAlignment.Center;
-            button.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(button, 0);
-            Grid.SetRow(button, 0);
-            buttons.Children.Add(button);
-
-            canvas.Children.Add(buttons);
-            Grid grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            Grid.SetRow(canvas, 0);
-            Grid.SetColumn(canvas, 0);
-            grid.Children.Add(canvas);
-            return grid;
-        }
-
-        public Grid MakePauseButtons()
+        public Grid MakeWinButtons()
         {
             Grid grid = new Grid();
             //grid.ShowGridLines = true;
+            int offset = 0;
             grid.ColumnDefinitions.Add(new ColumnDefinition());
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition());
             }
-            Button button = new Button();
-            button.Content = new Button();
-            button.Click += Restart;
-            TextBlock text = new TextBlock();
-            text.Text = "Restart";
-            button.Content = text;
-            button.Width = 150;
-            button.Height = 50;
-            button.HorizontalAlignment = HorizontalAlignment.Center;
-            button.VerticalAlignment = VerticalAlignment.Center;
+            Canvas button;
+            if(this.game.Level.Id != 4)
+            {
+                grid.RowDefinitions.Add(new RowDefinition());
+                offset = 1;
+                button = this.MakeNextLevelButton();
+                Grid.SetColumn(button, 0);
+                Grid.SetRow(button, 1);
+                grid.Children.Add(button);
+
+            }
+            button = this.MakeLevelSelectBut();
             Grid.SetColumn(button, 0);
-            Grid.SetRow(button, 1);
+            Grid.SetRow(button, 1+offset);
             grid.Children.Add(button);
 
-            button = new Button();
-            button.Click += LevelSelect;
-            text = new TextBlock();
-            text.Text = "Level Select";
-            button.Content = text;
-            button.Width = 150;
-            button.Height = 50;
-            button.HorizontalAlignment = HorizontalAlignment.Center;
-            button.VerticalAlignment = VerticalAlignment.Center;
+            button = this.MakeMainMenuBut();
             Grid.SetColumn(button, 0);
-            Grid.SetRow(button, 2);
-            grid.Children.Add(button);
-
-            button = new Button();
-            button.Click += ReturnToMainMenu;
-            text = new TextBlock();
-            text.TextWrapping = TextWrapping.Wrap;
-            text.Text = "Return to main menu";
-            button.Content = text;
-            button.Width = 150;
-            button.Height = 50;
-            button.HorizontalAlignment = HorizontalAlignment.Center;
-            button.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(button, 0);
-            Grid.SetRow(button, 3);
+            Grid.SetRow(button, 2+offset);
             grid.Children.Add(button);
 
             return grid;
+        }
+
+        public Canvas MakeMainMenuBut()
+        {
+            Canvas but = new Canvas();
+            but.MouseEnter += new MouseEventHandler(GameObject.MouseInCanvas);
+            but.MouseLeave += new MouseEventHandler(GameObject.MouseOutOfCanvas);
+            but.MouseDown += new MouseButtonEventHandler(this.ReturnToMainMenu);
+            but.Background = GetObjectImage("ButtonHome.png");
+            return but;
+        }
+
+        public Canvas MakeLevelSelectBut()
+        {
+            Canvas but = new Canvas();
+            but.MouseEnter += new MouseEventHandler(GameObject.MouseInCanvas);
+            but.MouseLeave += new MouseEventHandler(GameObject.MouseOutOfCanvas);
+            but.MouseDown += new MouseButtonEventHandler(this.LevelSelect);
+            but.Background = GetObjectImage("ButtonLevels.png");
+            return but;
+        }
+
+        public Canvas MakeRestartButton()
+        {
+            Canvas but = new Canvas();
+            but.MouseEnter += new MouseEventHandler(GameObject.MouseInCanvas);
+            but.MouseLeave += new MouseEventHandler(GameObject.MouseOutOfCanvas);
+            but.MouseDown += new MouseButtonEventHandler(this.Restart);
+            but.Background = GetObjectImage("ButtonReset.png");
+            return but;
+        }
+
+        public Canvas MakeNextLevelButton()
+        {
+            Canvas but = new Canvas();
+            but.MouseEnter += new MouseEventHandler(GameObject.MouseInCanvas);
+            but.MouseLeave += new MouseEventHandler(GameObject.MouseOutOfCanvas);
+            but.MouseDown += new MouseButtonEventHandler(this.StartNextLevel);
+            but.Background = GetObjectImage("ButtonNext.png");
+            return but;
         }
 
         public void Restart(object sender, RoutedEventArgs a)
         {
             Level level = SerializationUtility.DeserializeLevel(this.game.Level.Id);
             StartLevel(LevelGrid, level);
-        }
-
-        public void DestroyBlackBackground()
-        {
-            LevelGrid.Children.RemoveAt(LevelGrid.Children.Count - 1);
         }
         
         /// <summary>

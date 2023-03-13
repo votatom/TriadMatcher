@@ -113,6 +113,8 @@ namespace Triad_Matcher
             canvas.Background = image;
             canvas.Focusable = true;
             canvas.MouseDown += new MouseButtonEventHandler(game.Choose);
+            canvas.MouseEnter += new MouseEventHandler(MouseInCanvas);
+            canvas.MouseLeave += new MouseEventHandler(MouseOutOfCanvas);
             canvas.Cursor = Cursors.Hand;
             return canvas;
         }
@@ -127,6 +129,54 @@ namespace Triad_Matcher
             canvas.Visibility = System.Windows.Visibility.Visible;
             canvas.Background = image;
             return canvas;
+        }
+
+        public static void MouseInCanvas(Object sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(Canvas))
+            {
+                SelectedCanvas((Canvas)sender, 0.9);
+            }
+            else
+            {
+                throw new Exception("Oh yeah im not canvas");
+            }
+        }
+
+        public static void MouseOutOfCanvas(Object sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(Canvas))
+            {
+                DeselectedCanvas((Canvas)sender);
+            }
+            else
+            {
+                throw new Exception("Oh yeah im not canvas");
+            }
+
+        }
+
+        public static void Select(Object sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(Canvas))
+            {
+                DeselectedCanvas((Canvas)sender);
+            }
+            else
+            {
+                throw new Exception("Oh yeah im not canvas");
+            }
+
+        }
+
+        public static void SelectedCanvas(Canvas canvas, double opacityValue)
+        {
+            canvas.Background.Opacity = opacityValue;
+        }
+
+        public static void DeselectedCanvas(Canvas canvas)
+        {
+            canvas.Background.Opacity = 1;
         }
 
         /// <summary>

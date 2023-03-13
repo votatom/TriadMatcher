@@ -2,5 +2,5 @@ level1.txt
 ph|vh|gh
 gh|ph|ph
 vh|gh|vh
-level1_background.jpg
+BackgroundLevel1.png
 Hat

@@ -1,0 +1,6 @@
+level4.txt
+ph|vh|gh
+gh|ph|ph
+vh|gh|vh
+BackgroundLevel4.png
+WandAndBottle

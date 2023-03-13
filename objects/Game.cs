@@ -11,8 +11,8 @@ namespace Triad_Matcher
     {
         public Grid Grid { get; init; }
         public bool FirstChosen { get; set; }
-        public Coordinates FirstObject { get; set; }
-        public Level Level { get; private set; }
+        public Coordinates? FirstObject { get; set; }
+        public Level? Level { get; private set; }
         public MainWindow MainWindow { get; init; }
         private bool Playable { get; set; }
 
@@ -144,7 +144,7 @@ namespace Triad_Matcher
         private void MoveObjects(Dictionary<Coordinates, Coordinates> fromTo)
         {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 80);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timer.Tick += delegate { timer.Stop();
                 foreach (Coordinates coord in fromTo.Keys)
                 {

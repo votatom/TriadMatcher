@@ -1,7 +1,7 @@
-level2.txt
+level3.txt
 bq|rq|gq|yq
 rq|bq|rq|gq
 gq|yq|bq|rq
 yq|gq|rq|yq
-BackgroundLevel2.png
-Neckles
+BackgroundLevel3.png
+WitchBelt

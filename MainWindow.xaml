@@ -57,42 +57,14 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Width="150" Height="70" Grid.Row="1" Grid.Column="0" Click="StartLevel1">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
-                        Level 1
-                    </TextBlock>
-                </Button.Content>
-            </Button>
-            <Button Width="150" Height="70" Grid.Row="1" Grid.Column="1" Click="StartLevel2">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
-                        Level 2
-                    </TextBlock>
-                </Button.Content>
-            </Button>
-            <Button Width="150" Height="70" Grid.Row="1" Grid.Column="2">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
-                        Level 3
-                    </TextBlock>
-                </Button.Content>
-            </Button>
-            <Button Width="150" Height="70" Grid.Row="1" Grid.Column="3">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
-                        Level 4
-                    </TextBlock>
-                </Button.Content>
-            </Button>
-            <Button Width="150" Height="70" Click="Exit" Grid.Row="2" Grid.Column="3">
+            <Button Width="150" Height="70" Click="Exit" Grid.Row="0" Grid.Column="3">
                 <Button.Content>
                     <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
                         Exit
                     </TextBlock>
                 </Button.Content>
             </Button>
-            <Button Width="200" Height="70" Click="ReturnToMainMenu" Grid.Row="2" Grid.Column="0">
+            <Button Width="200" Height="70" Click="ReturnToMainMenu" Grid.Row="0" Grid.Column="0">
                 <Button.Content>
                     <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia" TextWrapping="Wrap">
                         Return to main menu
