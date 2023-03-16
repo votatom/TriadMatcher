@@ -12,17 +12,34 @@ namespace Triad_Matcher
     public enum Symbols
     {
         failed,
-        c,
-        m,
-        g,
-        bq,
-        gq,
-        pq,
-        rq,
-        yq,
+        //Level 1
         ph,
         gh,
-        vh
+        vh,
+
+        //Level 2
+        bq,
+        yq,
+        rq,
+        e,
+        a,
+
+        //Level 3
+        c,
+        tc,
+        bi,
+        mb, 
+        m,
+
+        //Level 4
+        d,
+        wf,
+        l,
+        mt,
+        pf
+        
+        
+        
 
     }
 }

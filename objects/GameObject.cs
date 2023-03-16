@@ -30,18 +30,30 @@ namespace Triad_Matcher
         /// ImagePath
         /// Determinates a path (filename) of an png image file in images/objects from a Symbol
         /// </summary>
-        private static Dictionary<Symbols, string> ImagePaths = new Dictionary<Symbols, string>() { 
-            {Symbols.c, "cat" },
-            {Symbols.m, "mushroom"},
-            {Symbols.g, "ghost" },
-            {Symbols.bq, "BlueQuartz" },
-            {Symbols.gq, "GreenQuartz" },
-            {Symbols.pq, "PurpleQuartz" },
-            {Symbols.rq, "RoseQuartz" },
-            {Symbols.yq, "YellowQuartz" },
+        private static Dictionary<Symbols, string> ImagePaths = new Dictionary<Symbols, string>() {
+            //Level 1
             {Symbols.ph, "PinkHat" },
             {Symbols.gh, "GreenHat" },
-            {Symbols.vh, "VioletHat" }
+            {Symbols.vh, "VioletHat" },
+            //Level 2
+            {Symbols.bq, "BlueQuartz" },
+            {Symbols.e, "Emerald" },
+            {Symbols.a, "Amethyst" },
+            {Symbols.rq, "RoseQuartz" },
+            {Symbols.yq, "YellowQuartz" },
+            //Level 3
+            {Symbols.c, "Candles" },
+            {Symbols.tc, "TarotCards" },
+            {Symbols.bi, "BottleItem" },
+            {Symbols.mb, "MagicBall" },
+            {Symbols.m, "Map" },
+            //Level 4
+            {Symbols.d, "Dandelion" },
+            {Symbols.wf, "WhiteFlower" },
+            {Symbols.l, "Leaf" },
+            {Symbols.mt, "MushroomToadstool" },
+            {Symbols.pf, "PinkFlower" }
+
 
         };
 

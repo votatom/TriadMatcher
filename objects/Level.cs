@@ -236,7 +236,11 @@ namespace Triad_Matcher.objects
                 grid.RowDefinitions.Add(new RowDefinition());
             }
             grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.RowDefinitions[0].Height = new System.Windows.GridLength(canvas.Height / 3 * 2);
+            grid.ColumnDefinitions[0].Width = new System.Windows.GridLength(canvas.Width / 10);
+            grid.ColumnDefinitions[4].Width = new System.Windows.GridLength(canvas.Width / 10);
             grid.Width = canvas.Width;
             grid.Height = canvas.Height;
             Grid item = CreateItem(canvas.Width);
@@ -245,34 +249,37 @@ namespace Triad_Matcher.objects
             border.Margin = new System.Windows.Thickness(0,(canvas.Height/4),0,0);
             Grid.SetRow(border, 0);
             Grid.SetColumn(border, 0);
-            Grid.SetColumnSpan(border, 3);
+            Grid.SetColumnSpan(border, 5);
+
+            double marginBottom = (canvas.Height / 18);
+            Canvas mainMenu = this.MainWindow.MakeMainMenuBut();
+            mainMenu.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            mainMenu.Height = mainMenu.Width;
+            Border mainMenuBorder = new Border();
+            mainMenuBorder.Child = mainMenu;
+            mainMenuBorder.Margin = new System.Windows.Thickness(0, 0, 0, marginBottom);
+            Grid.SetRow(mainMenuBorder, 1);
+            Grid.SetColumn(mainMenuBorder, 1);
+
             Canvas restart = this.MainWindow.MakeRestartButton();
-            restart.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
-            
+            restart.Width = (canvas.Width / 3) - (canvas.Width / 15 );
+            restart.Height = restart.Width;
             Border restartBorder = new Border();
             restartBorder.Child = restart;
-            restartBorder.Margin = new System.Windows.Thickness((canvas.Width / 10), 0,0, (canvas.Height / 16));
-
+            restartBorder.Margin = new System.Windows.Thickness(0,0,0,marginBottom);
             Grid.SetRow(restartBorder, 1);
-            Grid.SetColumn(restartBorder, 0);
+            Grid.SetColumn(restartBorder, 2);
 
             Canvas levelselect = this.MainWindow.MakeLevelSelectBut();
             levelselect.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            levelselect.Height = levelselect.Width;
             Border levelselectBorder = new Border();
             levelselectBorder.Child = levelselect;
-            levelselectBorder.Margin = new System.Windows.Thickness(0, 0, 0, (canvas.Height / 16));
-
+            levelselectBorder.Margin = new System.Windows.Thickness(0, 0, 0, marginBottom);
             Grid.SetRow(levelselectBorder, 1);
-            Grid.SetColumn(levelselectBorder, 1);
+            Grid.SetColumn(levelselectBorder, 3);
 
-            Canvas mainMenu = this.MainWindow.MakeMainMenuBut();
-            mainMenu.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
-            Border mainMenuBorder = new Border();
-            mainMenuBorder.Child = mainMenu;
-            mainMenuBorder.Margin = new System.Windows.Thickness(0, 0, (canvas.Width/10), (canvas.Height / 16));
 
-            Grid.SetRow(mainMenuBorder, 1);
-            Grid.SetColumn(mainMenuBorder, 2);
             grid.Children.Add(restartBorder);
             grid.Children.Add(levelselectBorder);
             grid.Children.Add(mainMenuBorder);

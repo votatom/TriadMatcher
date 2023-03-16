@@ -33,13 +33,8 @@
             </Grid.RowDefinitions>
             <Canvas Name = "PlayBut" Grid.Row="2" Grid.Column="1">
             </Canvas>
-            <Button Width="150" Height="70" Click="Exit" Grid.Row="3" Grid.Column="1">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
-                        Exit
-                    </TextBlock>
-                </Button.Content>
-            </Button>
+            <Canvas Name = "ExitButMain" Grid.Row="3" Grid.Column="1">
+            </Canvas>
             <Canvas Name="LogoCanvas" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
             </Canvas>
         </Grid>
@@ -57,20 +52,8 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Width="150" Height="70" Click="Exit" Grid.Row="0" Grid.Column="3">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia">
-                        Exit
-                    </TextBlock>
-                </Button.Content>
-            </Button>
-            <Button Width="200" Height="70" Click="ReturnToMainMenu" Grid.Row="0" Grid.Column="0">
-                <Button.Content>
-                    <TextBlock FontSize="30" FontWeight="Bold" FontFamily="Georgia" TextWrapping="Wrap">
-                        Return to main menu
-                    </TextBlock>
-                </Button.Content>
-            </Button>
+            <Canvas Name = "ExitButLevelSelect" Grid.Row="2" Grid.Column="2">
+            </Canvas>
         </Grid>
 
         <!--Grid for level-->
