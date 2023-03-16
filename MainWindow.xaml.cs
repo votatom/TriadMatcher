@@ -338,7 +338,10 @@ namespace Triad_Matcher
 
         public Canvas MakeLevelBut(int Id)
         {
-            double[] AspectRatio = { 413, 762 };
+            ImageBrush image = GetObjectImage("AfterLevel" + Id + ".png");
+            double height = image.ImageSource.Height;
+            double width = image.ImageSource.Width;
+            double[] AspectRatio = { width, height };
             Canvas button = new Canvas();
             button.Name = "level" + Id;
             button.Height = (this.Height/1.5) * AspectRatio[1] / (AspectRatio[0]+ AspectRatio[1]);
@@ -346,7 +349,7 @@ namespace Triad_Matcher
             button.MouseDown += this.ShowLevelEntrance;
             button.MouseEnter += new MouseEventHandler(GameObject.MouseInCanvas);
             button.MouseLeave += new MouseEventHandler(GameObject.MouseOutOfCanvas);
-            button.Background = GetObjectImage("AfterLevel"+Id+".png");
+            button.Background = image;
             return button;
         }
 
