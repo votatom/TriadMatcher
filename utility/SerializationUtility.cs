@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Triad_Matcher.objects;
-using Triad_Matcher.exceptions;
 
 namespace Triad_Matcher.utility
 {
