@@ -151,7 +151,7 @@ namespace Triad_Matcher
             }
             else
             {
-                throw new Exception("Oh yeah im not canvas");
+                throw new WrongWPFElementException("Oh yeah im not canvas");
             }
         }
 
@@ -163,7 +163,7 @@ namespace Triad_Matcher
             }
             else
             {
-                throw new Exception("Oh yeah im not canvas");
+                throw new WrongWPFElementException("Oh yeah im not canvas");
             }
 
         }
@@ -176,7 +176,7 @@ namespace Triad_Matcher
             }
             else
             {
-                throw new Exception("Oh yeah im not canvas");
+                throw new WrongWPFElementException("Oh yeah im not canvas");
             }
 
         }
