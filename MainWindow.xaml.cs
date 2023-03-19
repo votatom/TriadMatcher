@@ -261,13 +261,15 @@ namespace Triad_Matcher
         {
             level.AddMainWindow(this);
             levelGrid.Children.Clear();
+            levelGrid.ColumnDefinitions[0].Width = new GridLength(this.Width / 3 + this.Width / 10);
+            //levelGrid.ShowGridLines = true;
             Grid grid = new Grid();
             Canvas gameplanCanvas = new Canvas();
             Grid.SetRow(gameplanCanvas, 0);
             Grid.SetColumn(gameplanCanvas, 1);
             Grid.SetColumnSpan(gameplanCanvas, 2);
             Grid.SetRowSpan(gameplanCanvas, 3);
-            grid.Width = levelGrid.ColumnDefinitions[0].ActualWidth + 100;
+            grid.Width = this.Width*560/1280;
             grid.Height = grid.Width;
             gameplanCanvas.Width = grid.Width;
             gameplanCanvas.Height = grid.Width;
@@ -289,8 +291,10 @@ namespace Triad_Matcher
             ImageBrush reqBack = GetBackground("GUI-inLevel" + level.Id + ".png");
             reqBack.Stretch = Stretch.Uniform;
             canvas.Background = reqBack;
-            canvas.Width = 300;
-            canvas.Height = 600;
+            canvas.Width = levelGrid.Width * 3 / 8;
+            //canvas.Width = 300;
+
+            canvas.Height = levelGrid.Height/1.3;
             Grid.SetRow(canvas, 0);
             Grid.SetColumn(canvas, 0);
             Grid.SetRowSpan(canvas, 3);

@@ -229,7 +229,8 @@ namespace Triad_Matcher.objects
             Grid grid = new Grid();
             grid.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             grid.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-            grid.MaxHeight = canvas.Height-50;
+            grid.MaxHeight = canvas.Height;
+            grid.MaxWidth = canvas.Width;
             for (int i = 0; i < 2; i++)
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -239,8 +240,8 @@ namespace Triad_Matcher.objects
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.RowDefinitions[0].Height = new System.Windows.GridLength(canvas.Height / 3 * 2);
-            grid.ColumnDefinitions[0].Width = new System.Windows.GridLength(canvas.Width / 10);
-            grid.ColumnDefinitions[4].Width = new System.Windows.GridLength(canvas.Width / 10);
+            grid.ColumnDefinitions[0].Width = new System.Windows.GridLength(canvas.Width / 5);
+            grid.ColumnDefinitions[4].Width = new System.Windows.GridLength(canvas.Width / 5);
             grid.Width = canvas.Width;
             grid.Height = canvas.Height;
             Grid item = CreateItem(canvas.Width);
@@ -250,10 +251,11 @@ namespace Triad_Matcher.objects
             Grid.SetRow(border, 0);
             Grid.SetColumn(border, 0);
             Grid.SetColumnSpan(border, 5);
-
-            double marginBottom = (canvas.Height / 18);
+            //123.5   10
+            double buttonsWidth = (canvas.Width *4 / 18);
+            double marginBottom = (canvas.Height * 4/123.5 );
             Canvas mainMenu = this.MainWindow.MakeMainMenuBut();
-            mainMenu.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            mainMenu.Width = buttonsWidth/1.5;
             mainMenu.Height = mainMenu.Width;
             Border mainMenuBorder = new Border();
             mainMenuBorder.Child = mainMenu;
@@ -262,7 +264,7 @@ namespace Triad_Matcher.objects
             Grid.SetColumn(mainMenuBorder, 1);
 
             Canvas restart = this.MainWindow.MakeRestartButton();
-            restart.Width = (canvas.Width / 3) - (canvas.Width / 15 );
+            restart.Width = buttonsWidth / 1.1;
             restart.Height = restart.Width;
             Border restartBorder = new Border();
             restartBorder.Child = restart;
@@ -271,7 +273,7 @@ namespace Triad_Matcher.objects
             Grid.SetColumn(restartBorder, 2);
 
             Canvas levelselect = this.MainWindow.MakeLevelSelectBut();
-            levelselect.Width = (canvas.Width / 3) - (canvas.Width / 15 * 2);
+            levelselect.Width = buttonsWidth / 1.5;
             levelselect.Height = levelselect.Width;
             Border levelselectBorder = new Border();
             levelselectBorder.Child = levelselect;
@@ -289,22 +291,23 @@ namespace Triad_Matcher.objects
 
         private Grid CreateItem(double width)
         {
+            //59/73
             Grid grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.RowDefinitions.Add(new RowDefinition());
             Canvas BlackCanvas = new Canvas();
-            BlackCanvas.Width = width - (width / 15 * 4);
             ImageBrush imageBlack = new ImageBrush();
             imageBlack.Stretch = Stretch.Uniform;
             Uri uriBlack = new Uri("../../../images/objects/Black"+this.Item+".png", UriKind.Relative);
             BitmapImage blackBitmap = new BitmapImage(uriBlack);
+            
             if(this.Id == 2)
             {
-                BlackCanvas.Width = width - (width / 15 * 7);
+                BlackCanvas.Width = width * 30 / 73;
             }
             else
             {
-                BlackCanvas.Width = width - (width / 15 * 4);
+                BlackCanvas.Width = width * 40 / 73;
             }
             imageBlack.ImageSource = blackBitmap;
             BlackCanvas.Background = imageBlack;
