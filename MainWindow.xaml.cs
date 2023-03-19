@@ -308,7 +308,7 @@ namespace Triad_Matcher
                 new Thickness(0, 0, this.Width/16.5, 0),
                 new Thickness(0, this.Height/8, this.Width/12, 0),
                 new Thickness(this.Width/7, this.Height/9, 0, 0),
-                new Thickness(this.Width/10, 0, 0, 0)
+                new Thickness(this.Width/10, this.Height/20, 0, 0)
             };
             for(int i = 0; i < 4; i++)
             {
