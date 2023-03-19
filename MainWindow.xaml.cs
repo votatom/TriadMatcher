@@ -342,7 +342,7 @@ namespace Triad_Matcher
 
         public Canvas MakeLevelBut(int Id)
         {
-            ImageBrush image = GetObjectImage("AfterLevel" + Id + ".png");
+            ImageBrush image = GetObjectImage("MainCharacter-Level" + Id + ".png");
             double height = image.ImageSource.Height;
             double width = image.ImageSource.Width;
             double[] AspectRatio = { width, height };
