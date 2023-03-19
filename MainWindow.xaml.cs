@@ -27,16 +27,15 @@ namespace Triad_Matcher
         public Game? game { get; set; }
 
         /// <summary>
-        /// Initializes window, sets main grids height and width, and creates levels (only one use, deletes after)
+        /// Initializes window, sets main grids height and width
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             SetGrids();
             SetMainMenu();
-            //Main.MakeLevels();
             MakeLevelSelectButtons();
-            ImageBrush mainMenuBack = GetBackground("MainMenuBackground-Crop.png");
+            ImageBrush mainMenuBack = GetBackground("MainMenuBackground.png");
             mainMenuBack.Stretch = Stretch.UniformToFill;
             MainCanvas.Background = mainMenuBack;
             LogoCanvas.Background = GetObjectImage("Logo.png");
@@ -207,7 +206,7 @@ namespace Triad_Matcher
         {
             grid.Visibility = Visibility.Hidden;
             MainGrid.Visibility = Visibility.Visible;
-            MainCanvas.Background = GetBackground("MainMenuBackground-Crop.png");
+            MainCanvas.Background = GetBackground("MainMenuBackground.png");
         }
 
 
