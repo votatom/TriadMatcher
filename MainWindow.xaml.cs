@@ -36,7 +36,7 @@ namespace Triad_Matcher
             SetMainMenu();
             //Main.MakeLevels();
             MakeLevelSelectButtons();
-            ImageBrush mainMenuBack = GetBackground("MainMenuBackground-Crop.jpg");
+            ImageBrush mainMenuBack = GetBackground("MainMenuBackground-Crop.png");
             mainMenuBack.Stretch = Stretch.UniformToFill;
             MainCanvas.Background = mainMenuBack;
             LogoCanvas.Background = GetObjectImage("Logo.png");
@@ -207,7 +207,7 @@ namespace Triad_Matcher
         {
             grid.Visibility = Visibility.Hidden;
             MainGrid.Visibility = Visibility.Visible;
-            MainCanvas.Background = GetBackground("MainMenuBackground-Crop.jpg");
+            MainCanvas.Background = GetBackground("MainMenuBackground-Crop.png");
         }
 
 
