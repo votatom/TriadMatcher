@@ -465,7 +465,7 @@ namespace Triad_Matcher
             grid.RowDefinitions.Add(new RowDefinition());
             grid.ColumnDefinitions[0].Width = new GridLength(canvasWidth /10);
             grid.ColumnDefinitions[4].Width = new GridLength(canvasWidth / 10);
-          
+            
             button1.Width = max;
             button1.Height = max;
             Grid.SetColumn(button1, 1);
