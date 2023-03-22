@@ -9,7 +9,7 @@ namespace Triad_Matcher
 {
     public class Game
     {
-        public Grid Grid { get; init; }
+        public Grid GamePlanGrid { get; init; }
         public bool FirstChosen { get; set; }
         public Coordinates? FirstObject { get; set; }
         public Level? Level { get; private set; }
@@ -20,7 +20,7 @@ namespace Triad_Matcher
         {
             this.FirstChosen = false;
             this.FirstObject = null;
-            this.Grid = grid;
+            this.GamePlanGrid = grid;
             this.MainWindow = mainWindow;
             this.Resume();
         }
@@ -85,7 +85,7 @@ namespace Triad_Matcher
         {
             try
             {
-                Canvas canvas = this.Grid.Children.Cast<Canvas>().First(e =>
+                Canvas canvas = this.GamePlanGrid.Children.Cast<Canvas>().First(e =>
                                 Grid.GetRow(e) == row &&
                                 Grid.GetColumn(e) == col);
                 return canvas;
@@ -185,7 +185,7 @@ namespace Triad_Matcher
                 timer.Stop();
                 foreach(Canvas canvas in toDestroy)
                 {
-                    this.Grid.Children.Remove(canvas);
+                    this.GamePlanGrid.Children.Remove(canvas);
                 }
                 this.Level.FillItem();
             };

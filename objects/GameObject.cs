@@ -116,11 +116,12 @@ namespace Triad_Matcher
         /// </returns>
         public Canvas CreateImage(ref Game game, int rowColAmount)
         {
+            double width = game.GamePlanGrid.Width;
             ImageBrush image = new ImageBrush();
             image.ImageSource = new BitmapImage(this.GetImagePath());
             image.Stretch = Stretch.Uniform;
             Canvas canvas = new Canvas();
-            canvas.Margin = new Thickness(60/rowColAmount);
+            canvas.Margin = new Thickness((width*3/28) /rowColAmount);
             canvas.Visibility = System.Windows.Visibility.Visible;
             canvas.Background = image;
             canvas.Focusable = true;
