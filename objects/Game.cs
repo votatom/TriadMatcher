@@ -43,7 +43,7 @@ namespace Triad_Matcher
                     }
                     else
                     {
-                        throw new WrongWPFElementException("Oh yeah im not canvas");
+                        throw new WrongWPFElementException("Element is not canvas");
                     }
                 }
                 else
@@ -73,7 +73,7 @@ namespace Triad_Matcher
                     }
                     else
                     {
-                        throw new WrongWPFElementException("Oh yeah im not canvas");
+                        throw new WrongWPFElementException("Element is not canvas");
                     }
 
                 }
@@ -109,7 +109,7 @@ namespace Triad_Matcher
                 else
                 { 
                     DispatcherTimer timer = new DispatcherTimer();
-                    timer.Interval = new TimeSpan(0,0,0,0,750);
+                    timer.Interval = new TimeSpan(0,0,0,0,500);
                     timer.Tick += delegate { 
                         timer.Stop(); 
                         Swap(first, second);
