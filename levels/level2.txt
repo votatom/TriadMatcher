@@ -1,7 +1,7 @@
 level2.txt
-e|a|bq|rq
-rq|yq|rq|e
-a|bq|e|a
-bq|yq|e|bq
+e|yq|bq|rq
+e|yq|rq|bq
+a|e|a|a
+e|rq|yq|bq
 BackgroundLevel2.png
 Neckles
