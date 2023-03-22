@@ -121,7 +121,7 @@ namespace Triad_Matcher
             image.ImageSource = new BitmapImage(this.GetImagePath());
             image.Stretch = Stretch.Uniform;
             Canvas canvas = new Canvas();
-            canvas.Margin = new Thickness((width*3/28) /rowColAmount);
+            canvas.Margin = new Thickness((width*3.25/28) /rowColAmount);
             canvas.Visibility = System.Windows.Visibility.Visible;
             canvas.Background = image;
             canvas.Focusable = true;
