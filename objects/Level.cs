@@ -303,7 +303,7 @@ namespace Triad_Matcher.objects
             BitmapImage blackBitmap = new BitmapImage(uriBlack);
             RenderOptions.SetBitmapScalingMode(blackBitmap, BitmapScalingMode.HighQuality);
 
-            if (this.Id == 2)
+            if (this.Id == 2 || this.Id == 4)
             {
                 BlackCanvas.Width = width * 30 / 73;
             }
