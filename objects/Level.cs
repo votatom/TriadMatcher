@@ -301,8 +301,9 @@ namespace Triad_Matcher.objects
             imageBlack.Stretch = Stretch.Uniform;
             Uri uriBlack = new Uri("../../../images/objects/Black"+this.Item+".png", UriKind.Relative);
             BitmapImage blackBitmap = new BitmapImage(uriBlack);
-            
-            if(this.Id == 2)
+            RenderOptions.SetBitmapScalingMode(blackBitmap, BitmapScalingMode.HighQuality);
+
+            if (this.Id == 2)
             {
                 BlackCanvas.Width = width * 30 / 73;
             }
@@ -320,7 +321,9 @@ namespace Triad_Matcher.objects
             ImageBrush image = new ImageBrush();
             image.Stretch = Stretch.Uniform;
             Uri uri = new Uri("../../../images/objects/"+this.Item+".png", UriKind.Relative);
-            image.ImageSource = new BitmapImage(uri);
+            BitmapImage imageBitmap = new BitmapImage(uri);
+            RenderOptions.SetBitmapScalingMode(imageBitmap, BitmapScalingMode.HighQuality);
+            image.ImageSource = imageBitmap;
             image.Opacity = 0;
             canvas.Background = image;
             this.ItemCanvas = canvas;
