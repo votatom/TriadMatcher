@@ -1,7 +1,7 @@
 level3.txt
-m|c|mb|tc
-c|bi|m|tc
-tc|m|c|bi
-bi|tc|mb|m
+mb|bi|c|m
+bi|mb|tc|m
+mb|c|m|tc
+c|bi|tc|m
 BackgroundLevel3.png
 WitchBelt
