@@ -32,6 +32,7 @@ namespace Triad_Matcher
         public MainWindow()
         {
             InitializeComponent();
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.Fant);
             SetGrids();
             SetMainMenu();
             MakeLevelSelectButtons();

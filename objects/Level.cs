@@ -255,6 +255,7 @@ namespace Triad_Matcher.objects
             double buttonsWidth = (canvas.Width *4 / 18);
             double marginBottom = (canvas.Height * 4/123.5 );
             Canvas mainMenu = this.MainWindow.MakeMainMenuBut();
+            //ImageBrush mainBrush = mainMenu.Background;
             mainMenu.Width = buttonsWidth/1.5;
             mainMenu.Height = mainMenu.Width;
             Border mainMenuBorder = new Border();
