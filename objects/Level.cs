@@ -206,7 +206,7 @@ namespace Triad_Matcher.objects
                 int col = 0;
                 foreach (GameObject obj in objects)
                 {
-                    Canvas canvas = obj.CreateImage(ref game);
+                    Canvas canvas = obj.CreateImage(ref game, this.GamePlan.Count);
                     Grid.SetRow(canvas, row);
                     Grid.SetColumn(canvas, col);
                     grid.Children.Add(canvas);

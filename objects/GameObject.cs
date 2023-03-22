@@ -114,13 +114,13 @@ namespace Triad_Matcher
         /// Canvas with backkground image of a GameObject
         /// Canvas
         /// </returns>
-        public Canvas CreateImage(ref Game game)
+        public Canvas CreateImage(ref Game game, int rowColAmount)
         {
             ImageBrush image = new ImageBrush();
             image.ImageSource = new BitmapImage(this.GetImagePath());
             image.Stretch = Stretch.Uniform;
             Canvas canvas = new Canvas();
-            canvas.Margin = new Thickness(20);
+            canvas.Margin = new Thickness(60/rowColAmount);
             canvas.Visibility = System.Windows.Visibility.Visible;
             canvas.Background = image;
             canvas.Focusable = true;

@@ -109,7 +109,7 @@ namespace Triad_Matcher
                 else
                 { 
                     DispatcherTimer timer = new DispatcherTimer();
-                    timer.Interval = new TimeSpan(0,0,0,0,500);
+                    timer.Interval = new TimeSpan(0,0,0,0,750);
                     timer.Tick += delegate { 
                         timer.Stop(); 
                         Swap(first, second);
@@ -144,7 +144,7 @@ namespace Triad_Matcher
         private void MoveObjects(Dictionary<Coordinates, Coordinates> fromTo)
         {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
             timer.Tick += delegate { timer.Stop();
                 foreach (Coordinates coord in fromTo.Keys)
                 {
