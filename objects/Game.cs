@@ -104,7 +104,26 @@ namespace Triad_Matcher
                 if(this.Level.SwapEm(first, second))
                 {
                     DeleteObjectCanvases();
-                    MoveObjects(this.Level.WhatToMove());
+                    List<List<Coordinates>> toDo = new List<List<Coordinates>>();
+                    Dictionary<Coordinates, Coordinates> whatToMove = this.Level.WhatToMove();
+                    MoveObjects(whatToMove);
+                    toDo.Add(Game.ValuesToList(whatToMove));
+                    int index = 0;
+                    do
+                    {
+                        foreach(Coordinates e in toDo[index])
+                        {
+                            if (this.Level.Cascade(e))
+                            {
+                                
+                                DeleteObjectCanvases();
+                                Dictionary<Coordinates, Coordinates> whatToMoveCascade = this.Level.WhatToMove();
+                                MoveObjects(whatToMoveCascade);
+                                toDo.Add(ValuesToList(whatToMoveCascade));
+                            }
+                        }
+                        index++;
+                    }while(index < toDo.Count);
                 }
                 else
                 { 
@@ -124,6 +143,16 @@ namespace Triad_Matcher
             {
                 this.Resume();
             }
+        }
+
+        private static List<Coordinates> ValuesToList(Dictionary<Coordinates,Coordinates> dictionary)
+        {
+            List<Coordinates> list = new List<Coordinates>();
+            foreach(Coordinates e in dictionary.Values)
+            {
+                list.Add(e);
+            }
+            return list;
         }
 
         public void Swap(Coordinates first, Coordinates second)

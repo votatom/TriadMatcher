@@ -354,6 +354,20 @@ namespace Triad_Matcher.objects
             return true;
         }
 
+        public bool Cascade(Coordinates coord)
+        {
+            GameObject gameObject = this.GamePlan[coord.row][coord.col];
+            if(gameObject != null)
+            {
+                if (this.Match(coord))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
         public Dictionary<Coordinates, Coordinates> WhatToMove()
         {
             Dictionary<Coordinates, Coordinates> toMove = new Dictionary<Coordinates, Coordinates>();
