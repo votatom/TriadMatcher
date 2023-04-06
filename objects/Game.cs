@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Triad_Matcher.objects;
 
@@ -15,6 +17,8 @@ namespace Triad_Matcher
         public Level? Level { get; private set; }
         public MainWindow MainWindow { get; init; }
         private bool Playable { get; set; }
+
+        private bool Cascade { get; set; }
 
         public Game(ref Grid grid, MainWindow mainWindow)
         {
@@ -30,7 +34,7 @@ namespace Triad_Matcher
             this.Level = level;
         }
 
-        public void Choose(object sender,EventArgs arg)
+        public async void Choose(object sender,EventArgs arg)
         {
             if (this.Playable)
             {
@@ -63,8 +67,12 @@ namespace Triad_Matcher
                         this.FirstObject = null;
                         if (this.Level.IsWon())
                         {
+                            while (!this.Cascade)
+                            {
+                                await Task.Delay(100);
+                            }
                             DispatcherTimer timer = new DispatcherTimer();
-                            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+                            timer.Interval = new TimeSpan(0, 0, 0, 0, 400);
                             timer.Tick += new EventHandler(
                                 this.MainWindow.ShowWinState
                             );
@@ -96,13 +104,14 @@ namespace Triad_Matcher
             }
         }
 
-        private void SwapEm(Coordinates first, Coordinates second)
+        private async void SwapEm(Coordinates first, Coordinates second)
         {
             if (first.Compare(second))
             {
                 Swap(first, second);
                 if(this.Level.SwapEm(first, second))
                 {
+                    this.Cascade = false;
                     DeleteObjectCanvases();
                     List<List<Coordinates>> toDo = new List<List<Coordinates>>();
                     Dictionary<Coordinates, Coordinates> whatToMove = this.Level.WhatToMove();
@@ -115,11 +124,22 @@ namespace Triad_Matcher
                         {
                             if (this.Level.Cascade(e))
                             {
+                                while (!this.Cascade)
+                                {
+                                    await Task.Delay(25);
+                                }
+                                this.Cascade = false;
+                                DispatcherTimer timer = new DispatcherTimer();
+                                timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
+                                timer.Tick += delegate {
+                                    timer.Stop();
+                                    DeleteObjectCanvases();
+                                    Dictionary<Coordinates, Coordinates> whatToMoveCascade = this.Level.WhatToMove();
+                                    MoveObjects(whatToMoveCascade);
+                                    toDo.Add(ValuesToList(whatToMoveCascade));
+                                };
+                                timer.Start();
                                 
-                                DeleteObjectCanvases();
-                                Dictionary<Coordinates, Coordinates> whatToMoveCascade = this.Level.WhatToMove();
-                                MoveObjects(whatToMoveCascade);
-                                toDo.Add(ValuesToList(whatToMoveCascade));
                             }
                         }
                         index++;
@@ -168,7 +188,6 @@ namespace Triad_Matcher
             //secondCan.Background = background;
         }
 
-        
 
         private void MoveObjects(Dictionary<Coordinates, Coordinates> fromTo)
         {
@@ -186,6 +205,7 @@ namespace Triad_Matcher
 
                 }
                 this.Resume();
+                this.Cascade = true;
             };
             timer.Start();
         }

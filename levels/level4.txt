@@ -1,8 +1,8 @@
 level4.txt
-pf|wf|mt|d|d
-d|l|pf|wf|d
-wf|mt|d|l|d
-l|pf|wf|mt|d
-l|pf|wf|mt|d
+wf|wf|d|wf|wf
+pf|wf|wf|pf|bb
+wf|pf|pf|bb|mt
+pf|wf|mt|pf|bb
+d|d|mt|d|bb
 BackgroundLevel4.png
 WandAndBottle

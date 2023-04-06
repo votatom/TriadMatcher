@@ -52,7 +52,8 @@ namespace Triad_Matcher
             {Symbols.wf, "WhiteFlower" },
             {Symbols.l, "Leaf" },
             {Symbols.mt, "MushroomToadstool" },
-            {Symbols.pf, "PinkFlower" }
+            {Symbols.pf, "PinkFlower" },
+            {Symbols.bb, "BlueBerry" }
 
 
         };
