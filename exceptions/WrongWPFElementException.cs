@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Triad_Matcher
 {
-    public class WrongWPFElementException : Exception
+    public class InvalidWPFElementException : Exception
     {
-        public WrongWPFElementException() : base() { }
-        public WrongWPFElementException(string message) : base(message) { }
+        public InvalidWPFElementException() : base() { }
+        public InvalidWPFElementException(string message) : base(message) { }
     }
 }

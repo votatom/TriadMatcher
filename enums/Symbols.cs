@@ -38,9 +38,5 @@ namespace Triad_Matcher
         mt,
         pf,
         bb
-        
-        
-        
-
     }
 }
