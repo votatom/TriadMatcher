@@ -308,6 +308,7 @@ namespace Triad_Matcher
             for(int i = 0; i < 4; i++)
             {
                 Canvas button = this.MakeLevelBut(i+1);
+                button.Cursor = Cursors.Hand;
                 Border buttonBorder = new Border();
                 buttonBorder.Child = button;
                 buttonBorder.Margin = borderThicknesses[i];
