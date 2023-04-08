@@ -65,7 +65,7 @@ namespace Triad_Matcher.utility
                         if(!objects.Contains(new GameObject(character))){
                             objects.Add(new GameObject(character));
                         }
-                        lineObj.Add(findGameObject(character,objects));
+                        lineObj.Add(FindGameObject(character,objects));
                     }
                     gameplan.Add(lineObj);
                 } while (line.Split("|").Length > 1);
@@ -80,23 +80,6 @@ namespace Triad_Matcher.utility
                 throw new InsufficientDataException("Data in file "+(new Uri(filePath).AbsolutePath)+" are not valid");
             }
         }
-
-        /// <summary>
-        /// Writes a text into a testfile to check if code is working correctly (will be deleted)
-        /// </summary>
-        /// <param name="message">
-        /// Message to write into a text file
-        /// </param>
-        public static void WriteTest(string message)
-        {
-            String filePath = String.Format(path, "test");
-            FileStream file = File.OpenWrite(filePath);
-            StreamWriter writer = new StreamWriter(file);
-            writer.Write(message);
-            writer.Close();
-            file.Close();
-        }
-
         /// <summary>
         /// Finds GameObject in array for further uses
         /// </summary>
@@ -109,7 +92,7 @@ namespace Triad_Matcher.utility
         /// <returns>
         /// Specific GameObject or null if it doesnt find anything
         /// </returns>
-        public static GameObject findGameObject(string symbol, List<GameObject> listGameObjects)
+        public static GameObject FindGameObject(string symbol, List<GameObject> listGameObjects)
         {
             foreach (GameObject gameObject in listGameObjects)
             {

@@ -91,24 +91,6 @@ namespace Triad_Matcher
         }
 
         /// <summary>
-        /// Gets path of Image in folder images/[folder]
-        /// </summary>
-        /// <param name="folder">
-        /// Name of folder
-        /// </param>
-        /// <param name="filename">
-        /// Name of image file in [folder]
-        /// </param>
-        /// <returns>
-        /// Uri of a file
-        /// </returns>
-        public Uri GetImagePath(string folder, string filename)
-        {
-            String path = String.Format(BasePath,folder ,filename);
-            return new Uri(path, UriKind.Relative);
-        }
-
-        /// <summary>
         /// Creates canvas to be used for a GUI represantation of a GameObject
         /// </summary>
         /// <returns>
@@ -132,19 +114,6 @@ namespace Triad_Matcher
             canvas.Cursor = Cursors.Hand;
             return canvas;
         }
-
-        public Canvas CreateImage()
-        {
-            ImageBrush image = new ImageBrush();
-            image.ImageSource = new BitmapImage(this.GetImagePath());
-            image.Stretch = Stretch.Uniform;
-            Canvas canvas = new Canvas();
-            canvas.Margin = new Thickness(20);
-            canvas.Visibility = System.Windows.Visibility.Visible;
-            canvas.Background = image;
-            return canvas;
-        }
-
         public static void MouseInCanvas(Object sender, EventArgs e)
         {
             if (sender.GetType() == typeof(Canvas))
@@ -158,19 +127,6 @@ namespace Triad_Matcher
         }
 
         public static void MouseOutOfCanvas(Object sender, EventArgs e)
-        {
-            if (sender.GetType() == typeof(Canvas))
-            {
-                DeselectedCanvas((Canvas)sender);
-            }
-            else
-            {
-                throw new InvalidWPFElementException("Element is not canvas");
-            }
-
-        }
-
-        public static void Select(Object sender, EventArgs e)
         {
             if (sender.GetType() == typeof(Canvas))
             {
@@ -219,7 +175,7 @@ namespace Triad_Matcher
         /// String in a specific format (only symbol) to be saved in a file
         /// String
         /// </returns>
-        public String serialize()
+        public String Serialize()
         {
             return this.Symbol.ToString();
         }

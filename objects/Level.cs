@@ -407,7 +407,7 @@ namespace Triad_Matcher.objects
             {
                 foreach(GameObject obj in objects)
                 {
-                    text+=obj.serialize()+"|";
+                    text+=obj.Serialize()+"|";
                 }
                 text=text.Substring(0, text.Length - 1);
                 text += "\n";

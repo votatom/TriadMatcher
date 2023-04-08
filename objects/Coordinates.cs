@@ -51,7 +51,7 @@ namespace Triad_Matcher
                 return true;
             }
             return false;
-    }
+        }
     }
 
     
