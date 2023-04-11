@@ -124,7 +124,7 @@ namespace Triad_Matcher
         public static ImageBrush GetBackground(string filename)
         {
             ImageBrush ib = new ImageBrush();
-            string path = "../../../images/backgrounds/{0}";
+            string path = "images/backgrounds/{0}";
             ib.ImageSource = new BitmapImage(new Uri(String.Format(path,filename), UriKind.Relative));
             ib.Stretch = Stretch.UniformToFill;
             return ib;
@@ -141,7 +141,7 @@ namespace Triad_Matcher
         /// </param>
         public static void GetGridBackground(int amount, ref Canvas canvas)
         {
-            string path = "../../../images/grids/{0}";
+            string path = "images/grids/{0}";
             string file = amount + "x" + amount + ".png";
             ImageBrush ib = new ImageBrush();
             ib.ImageSource = new BitmapImage(new Uri(String.Format(path,file), UriKind.Relative));
@@ -162,7 +162,7 @@ namespace Triad_Matcher
         {
             ImageBrush ib = new ImageBrush();
             RenderOptions.SetBitmapScalingMode(ib, BitmapScalingMode.Fant);
-            string path = "../../../images/objects/{0}";
+            string path = "images/objects/{0}";
             ib.ImageSource = new BitmapImage(new Uri(String.Format(path, filename), UriKind.Relative));
             ib.Stretch = Stretch.Uniform;
             return ib;

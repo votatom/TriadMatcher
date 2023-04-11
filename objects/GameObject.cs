@@ -62,7 +62,7 @@ namespace Triad_Matcher
         /// BasePath
         /// A base path where images of objects are used
         /// </summary>
-        private static String BasePath = "../../../images/{0}/{1}.png";
+        private static String BasePath = "images/{0}/{1}.png";
 
         /// <summary>
         /// Creates instance of class GameObject

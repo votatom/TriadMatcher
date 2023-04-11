@@ -14,7 +14,7 @@ namespace Triad_Matcher.utility
         /// path
         /// Determinates base path where to find and save a Level file.
         /// </summary>
-        private static string path = "../../../levels/level{0}.txt";
+        private static string path = "levels/level{0}.txt";
 
         /// <summary>
         /// Saves informations about Level in a txt file

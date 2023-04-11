@@ -41,7 +41,7 @@ namespace Triad_Matcher.objects
         /// BasePath
         /// Determines where are certain components of level (images) located, functions are used to point to an exact locations.
         /// </summary>
-        public static String BasePath = "../../../images/{0}/{1}";
+        public static String BasePath = "images/{0}/{1}";
 
         /// <summary>
         /// BaseId
@@ -299,7 +299,7 @@ namespace Triad_Matcher.objects
             Canvas BlackCanvas = new Canvas();
             ImageBrush imageBlack = new ImageBrush();
             imageBlack.Stretch = Stretch.Uniform;
-            Uri uriBlack = new Uri("../../../images/objects/Black"+this.Item+".png", UriKind.Relative);
+            Uri uriBlack = new Uri("images/objects/Black"+this.Item+".png", UriKind.Relative);
             BitmapImage blackBitmap = new BitmapImage(uriBlack);
             RenderOptions.SetBitmapScalingMode(blackBitmap, BitmapScalingMode.HighQuality);
 
@@ -320,7 +320,7 @@ namespace Triad_Matcher.objects
             canvas.Name = "Item";
             ImageBrush image = new ImageBrush();
             image.Stretch = Stretch.Uniform;
-            Uri uri = new Uri("../../../images/objects/"+this.Item+".png", UriKind.Relative);
+            Uri uri = new Uri("images/objects/"+this.Item+".png", UriKind.Relative);
             BitmapImage imageBitmap = new BitmapImage(uri);
             RenderOptions.SetBitmapScalingMode(imageBitmap, BitmapScalingMode.HighQuality);
             image.ImageSource = imageBitmap;
